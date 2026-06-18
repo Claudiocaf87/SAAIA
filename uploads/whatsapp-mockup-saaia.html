@@ -1,0 +1,707 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SAAIA — WhatsApp Mockup Component</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ─── RESET ─── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+:root{
+  --bg:#07060F;--surface:#0E0B1F;
+  --red:#FF1744;--red-glow:rgba(255,23,68,.3);
+  --cyan:#00E5FF;--green:#00E676;
+  --wa-green:#25D366;--wa-dark:#075E54;--wa-bubble:#DCF8C6;--wa-bg:#ECE5DD;
+  --text:#fff;--muted:rgba(255,255,255,.5);--dim:rgba(255,255,255,.25);
+  --border:rgba(255,255,255,.08);
+  --font:'Inter',sans-serif;--mono:'JetBrains Mono',monospace;
+}
+
+body{
+  background:var(--bg);
+  font-family:var(--font);
+  color:var(--text);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* ─── BG EFFECTS ─── */
+.bg-grid{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px);
+  background-size:56px 56px;
+}
+.bg-orb{position:fixed;border-radius:50%;filter:blur(100px);pointer-events:none;z-index:0;}
+.bg-orb-1{width:500px;height:500px;background:rgba(255,23,68,.09);top:-100px;right:-80px;animation:orb1 11s ease-in-out infinite alternate;}
+.bg-orb-2{width:400px;height:400px;background:rgba(0,229,255,.07);bottom:-80px;left:-60px;animation:orb2 13s ease-in-out infinite alternate;}
+@keyframes orb1{to{transform:translate(-40px,30px) scale(1.1);}}
+@keyframes orb2{to{transform:translate(30px,-40px) scale(1.12);}}
+
+/* ─── DEMO PAGE LAYOUT ─── */
+.demo-page{
+  position:relative;z-index:1;
+  display:flex;flex-direction:column;align-items:center;
+  gap:80px;padding:60px 24px 100px;
+}
+
+.section-label{
+  font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:2px;
+  color:var(--red);text-align:center;margin-bottom:16px;
+}
+
+/* ─── HERO LAYOUT ─── */
+.hero-block{
+  display:grid;grid-template-columns:1fr auto;
+  align-items:center;gap:60px;max-width:1100px;width:100%;
+}
+.hero-copy{max-width:520px;}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:2px;
+  color:var(--muted);margin-bottom:24px;
+}
+.hero-eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--red);animation:blink 2s infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.3;}}
+.hero-h1{font-size:clamp(36px,5vw,62px);font-weight:800;line-height:1.05;letter-spacing:-1.5px;margin-bottom:20px;}
+.hero-h1 .acc{color:var(--red);}
+.hero-sub{font-size:16px;color:var(--muted);line-height:1.7;max-width:460px;margin-bottom:36px;}
+.hero-ctas{display:flex;gap:12px;flex-wrap:wrap;}
+.btn-primary{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--red);color:#fff;font-family:var(--font);font-size:15px;font-weight:700;
+  padding:15px 28px;border-radius:10px;border:none;cursor:pointer;text-decoration:none;
+  box-shadow:0 0 28px var(--red-glow);
+  transition:transform .15s,box-shadow .15s;
+  animation:pulsebtn 2.5s infinite;
+}
+@keyframes pulsebtn{0%,100%{box-shadow:0 0 28px var(--red-glow);}50%{box-shadow:0 0 48px rgba(255,23,68,.6);}}
+.btn-primary:hover{transform:translateY(-2px);}
+.btn-secondary{
+  display:inline-flex;align-items:center;gap:8px;
+  background:transparent;color:var(--text);font-family:var(--font);font-size:15px;font-weight:600;
+  padding:15px 28px;border-radius:10px;border:1px solid var(--border);cursor:pointer;text-decoration:none;
+  transition:border-color .2s,background .2s;
+}
+.btn-secondary:hover{border-color:rgba(255,255,255,.3);background:rgba(255,255,255,.04);}
+
+/* ─── FLOW SECTION ─── */
+.flow-block{
+  display:grid;grid-template-columns:auto 1fr;
+  align-items:center;gap:60px;max-width:1100px;width:100%;
+}
+.flow-copy{max-width:480px;}
+.flow-h2{font-size:clamp(28px,4vw,46px);font-weight:800;line-height:1.1;letter-spacing:-1px;margin-bottom:16px;}
+.flow-h2 .acc{color:var(--cyan);}
+.flow-sub{font-size:15px;color:var(--muted);line-height:1.7;margin-bottom:28px;}
+.flow-steps{display:flex;flex-direction:column;gap:0;}
+.flow-step{
+  display:flex;gap:14px;align-items:flex-start;
+  padding:14px 0;border-bottom:1px solid var(--border);
+}
+.flow-step:last-child{border-bottom:none;}
+.step-circle{
+  width:28px;height:28px;border-radius:50%;flex-shrink:0;
+  background:rgba(0,229,255,.12);border:1px solid rgba(0,229,255,.3);
+  font-family:var(--mono);font-size:11px;font-weight:700;color:var(--cyan);
+  display:flex;align-items:center;justify-content:center;
+}
+.step-title{font-size:13px;font-weight:700;margin-bottom:2px;}
+.step-desc{font-size:12px;color:var(--muted);line-height:1.5;}
+.step-tag{
+  font-family:var(--mono);font-size:10px;color:var(--cyan);
+  background:rgba(0,229,255,.1);padding:2px 7px;border-radius:4px;
+  display:inline-block;margin-top:4px;
+}
+
+/* ─── PHONE MOCKUP ─── */
+.phone-scene{
+  perspective:1000px;
+  flex-shrink:0;
+  cursor:default;
+}
+
+.phone-wrapper{
+  position:relative;
+  transform-style:preserve-3d;
+  transition:transform .08s linear;
+  will-change:transform;
+}
+
+/* Glow behind phone */
+.phone-glow{
+  position:absolute;inset:-30px;
+  background:radial-gradient(ellipse 70% 70% at 50% 50%, rgba(37,211,102,.15), transparent 70%);
+  border-radius:50%;
+  z-index:0;
+  animation:glowpulse 3s ease-in-out infinite alternate;
+}
+@keyframes glowpulse{0%{opacity:.6;}100%{opacity:1;transform:scale(1.1);}}
+
+/* Phone frame */
+.phone-frame{
+  position:relative;z-index:1;
+  width:280px;
+  background:#1a1a1a;
+  border-radius:44px;
+  padding:12px;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.12),
+    0 40px 80px rgba(0,0,0,.6),
+    inset 0 1px 0 rgba(255,255,255,.15);
+}
+
+/* Notch */
+.phone-notch{
+  width:90px;height:28px;
+  background:#1a1a1a;
+  border-radius:0 0 18px 18px;
+  margin:0 auto 6px;
+  position:relative;z-index:3;
+  display:flex;align-items:center;justify-content:center;gap:6px;
+}
+.notch-cam{width:8px;height:8px;border-radius:50%;background:#2a2a2a;border:1px solid #333;}
+.notch-speaker{width:40px;height:4px;border-radius:2px;background:#2a2a2a;}
+
+/* Screen */
+.phone-screen{
+  border-radius:34px;
+  overflow:hidden;
+  background:var(--wa-bg);
+  height:540px;
+  display:flex;flex-direction:column;
+}
+
+/* WA Header */
+.wa-header{
+  background:var(--wa-dark);
+  padding:10px 14px;
+  display:flex;align-items:center;gap:10px;
+  flex-shrink:0;
+}
+.wa-back{color:rgba(255,255,255,.7);font-size:18px;line-height:1;}
+.wa-avatar{
+  width:36px;height:36px;border-radius:50%;
+  background:linear-gradient(135deg,#128C7E,#25D366);
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:700;color:#fff;flex-shrink:0;
+}
+.wa-info{flex:1;}
+.wa-name{font-size:13px;font-weight:600;color:#fff;line-height:1.2;}
+.wa-status{font-size:11px;color:rgba(255,255,255,.65);}
+.wa-icons{display:flex;gap:16px;color:rgba(255,255,255,.7);font-size:16px;}
+
+/* WA Body */
+.wa-body{
+  flex:1;overflow:hidden;
+  padding:12px 10px;
+  display:flex;flex-direction:column;
+  gap:6px;
+  position:relative;
+}
+
+/* Mask top + bottom for scroll effect */
+.wa-body::before,.wa-body::after{
+  content:'';position:absolute;left:0;right:0;z-index:2;pointer-events:none;
+}
+.wa-body::before{top:0;height:30px;background:linear-gradient(to bottom,var(--wa-bg),transparent);}
+.wa-body::after{bottom:0;height:40px;background:linear-gradient(to top,var(--wa-bg),transparent);}
+
+.wa-scroll{
+  flex:1;overflow-y:auto;
+  display:flex;flex-direction:column;
+  gap:5px;padding:4px 2px;
+  scrollbar-width:none;
+}
+.wa-scroll::-webkit-scrollbar{display:none;}
+
+/* Date pill */
+.wa-date{
+  text-align:center;margin:4px 0;
+}
+.wa-date span{
+  background:rgba(255,255,255,.8);
+  font-size:10px;color:#555;padding:3px 10px;border-radius:8px;
+  backdrop-filter:blur(4px);
+}
+
+/* Messages */
+.msg{
+  display:flex;flex-direction:column;
+  max-width:80%;
+  opacity:0;transform:translateY(8px);
+  transition:opacity .35s,transform .35s;
+}
+.msg.visible{opacity:1;transform:translateY(0);}
+.msg.incoming{align-self:flex-start;}
+.msg.outgoing{align-self:flex-end;}
+
+.bubble{
+  padding:7px 10px 16px;
+  border-radius:8px;
+  font-size:12px;line-height:1.5;
+  position:relative;
+  word-break:break-word;
+  white-space:pre-wrap;
+}
+.msg.incoming .bubble{
+  background:#fff;
+  color:#111;
+  border-top-left-radius:2px;
+  box-shadow:0 1px 2px rgba(0,0,0,.12);
+}
+.msg.outgoing .bubble{
+  background:var(--wa-bubble);
+  color:#111;
+  border-top-right-radius:2px;
+  box-shadow:0 1px 2px rgba(0,0,0,.12);
+}
+
+.bubble-link{color:#075E54;text-decoration:underline;font-size:11px;word-break:break-all;}
+.bubble-time{
+  position:absolute;bottom:4px;right:8px;
+  font-size:9px;color:rgba(0,0,0,.45);
+  display:flex;align-items:center;gap:3px;
+}
+.ticks{color:#53bdeb;font-size:10px;}
+
+/* Typing indicator */
+.typing-bubble{
+  background:#fff;
+  padding:10px 14px;
+  border-radius:8px;border-top-left-radius:2px;
+  display:inline-flex;gap:4px;align-items:center;
+  box-shadow:0 1px 2px rgba(0,0,0,.12);
+  opacity:0;transition:opacity .3s;
+}
+.typing-bubble.show{opacity:1;}
+.typing-dot{
+  width:6px;height:6px;border-radius:50%;background:#999;
+  animation:tdot 1.2s infinite;
+}
+.typing-dot:nth-child(2){animation-delay:.2s;}
+.typing-dot:nth-child(3){animation-delay:.4s;}
+@keyframes tdot{0%,60%,100%{transform:translateY(0);}30%{transform:translateY(-4px);}}
+
+/* WA Input bar */
+.wa-input-bar{
+  background:#f0f0f0;
+  padding:8px 10px;
+  display:flex;align-items:center;gap:8px;
+  flex-shrink:0;
+}
+.wa-input-field{
+  flex:1;background:#fff;border-radius:20px;
+  padding:8px 14px;font-size:12px;color:#999;
+  border:none;outline:none;font-family:var(--font);
+}
+.wa-send-btn{
+  width:36px;height:36px;border-radius:50%;
+  background:var(--wa-green);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.wa-send-btn svg{width:16px;height:16px;fill:#fff;}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:900px){
+  .hero-block{grid-template-columns:1fr;justify-items:center;text-align:center;}
+  .hero-copy{max-width:100%;}
+  .hero-sub{margin-left:auto;margin-right:auto;}
+  .hero-ctas{justify-content:center;}
+  .flow-block{grid-template-columns:1fr;justify-items:center;}
+  .flow-copy{max-width:100%;text-align:center;}
+  .flow-steps{max-width:420px;width:100%;}
+}
+
+/* ─── FADE UP ─── */
+.fade-up{opacity:0;transform:translateY(24px);animation:fu .6s forwards;}
+.d1{animation-delay:.1s}.d2{animation-delay:.2s}.d3{animation-delay:.3s}.d4{animation-delay:.4s}
+@keyframes fu{to{opacity:1;transform:translateY(0);}}
+
+/* ─── INSTRUCTIONS BOX ─── */
+.instructions{
+  max-width:780px;width:100%;
+  background:rgba(0,229,255,.05);border:1px solid rgba(0,229,255,.2);
+  border-radius:14px;padding:24px 28px;
+}
+.instructions h3{font-size:14px;font-weight:700;color:var(--cyan);margin-bottom:12px;}
+.instructions p{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:8px;}
+.instructions code{
+  background:rgba(255,255,255,.07);padding:2px 6px;border-radius:4px;
+  font-family:var(--mono);font-size:12px;color:var(--text);
+}
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-orb bg-orb-1"></div>
+<div class="bg-orb bg-orb-2"></div>
+
+<div class="demo-page">
+
+  <!-- ═══════════════════════════════════════
+       INSTANCIA 1 — HERO (copy a la izquierda, phone a la derecha)
+  ═══════════════════════════════════════ -->
+  <div class="hero-block fade-up">
+
+    <!-- Copy -->
+    <div class="hero-copy">
+      <div class="hero-eyebrow"><span class="dot"></span>SISTEMA SAAIA — IA PARA CLÍNICAS</div>
+      <h1 class="hero-h1">
+        Mientras tu equipo<br>
+        duerme, tu clínica<br>
+        <span class="acc">sigue agendando.</span>
+      </h1>
+      <p class="hero-sub">
+        Respuesta automática en segundos, agendamiento sin intervención humana,
+        24 horas al día, los 7 días de la semana.
+      </p>
+      <div class="hero-ctas">
+        <a href="https://calendly.com/claudiocaf87/consultoria" target="_blank" class="btn-primary">
+          Ver cómo funciona →
+        </a>
+        <a href="#" class="btn-secondary">Ver demo gratis</a>
+      </div>
+    </div>
+
+    <!-- Phone -->
+    <div class="phone-scene" id="phone-scene-1">
+      <div class="phone-wrapper" id="phone-1">
+        <div class="phone-glow"></div>
+        <div class="phone-frame">
+          <div class="phone-notch">
+            <div class="notch-cam"></div>
+            <div class="notch-speaker"></div>
+          </div>
+          <div class="phone-screen">
+            <!-- WA Header -->
+            <div class="wa-header">
+              <div class="wa-back">‹</div>
+              <div class="wa-avatar">C</div>
+              <div class="wa-info">
+                <div class="wa-name">Clínica · SAAIA</div>
+                <div class="wa-status">en línea</div>
+              </div>
+              <div class="wa-icons">
+                <span>📞</span>
+                <span>⋮</span>
+              </div>
+            </div>
+            <!-- WA Body -->
+            <div class="wa-body">
+              <div class="wa-scroll" id="scroll-1">
+                <div class="wa-date"><span>Hoy</span></div>
+                <!-- Messages injected by JS -->
+              </div>
+            </div>
+            <!-- Input bar -->
+            <div class="wa-input-bar">
+              <div class="wa-input-field">Mensaje...</div>
+              <div class="wa-send-btn">
+                <svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       INSTANCIA 2 — FLUJO SAAIA (phone izquierda, copy derecha)
+  ═══════════════════════════════════════ -->
+  <div style="max-width:1100px;width:100%;" class="fade-up d2">
+    <div class="section-label">// LA SOLUCIÓN</div>
+    <div class="flow-block">
+
+      <!-- Phone -->
+      <div class="phone-scene" id="phone-scene-2">
+        <div class="phone-wrapper" id="phone-2">
+          <div class="phone-glow" style="background:radial-gradient(ellipse 70% 70% at 50% 50%, rgba(0,229,255,.12), transparent 70%);"></div>
+          <div class="phone-frame">
+            <div class="phone-notch">
+              <div class="notch-cam"></div>
+              <div class="notch-speaker"></div>
+            </div>
+            <div class="phone-screen">
+              <div class="wa-header">
+                <div class="wa-back">‹</div>
+                <div class="wa-avatar" style="background:linear-gradient(135deg,#0E0B1F,#00E5FF);color:#0E0B1F;">S</div>
+                <div class="wa-info">
+                  <div class="wa-name">Asistente SAAIA</div>
+                  <div class="wa-status">responde en segundos</div>
+                </div>
+                <div class="wa-icons"><span>📞</span><span>⋮</span></div>
+              </div>
+              <div class="wa-body">
+                <div class="wa-scroll" id="scroll-2"></div>
+              </div>
+              <div class="wa-input-bar">
+                <div class="wa-input-field">Mensaje...</div>
+                <div class="wa-send-btn">
+                  <svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Copy -->
+      <div class="flow-copy">
+        <h2 class="flow-h2">
+          De la consulta al turno confirmado.<br>
+          <span class="acc">Sin intervención humana.</span>
+        </h2>
+        <p class="flow-sub">
+          El Sistema SAAIA son 5 módulos que trabajan como un solo organismo.
+          Mientras vos atendés pacientes, el sistema agenda los próximos.
+        </p>
+        <div class="flow-steps">
+          <div class="flow-step">
+            <div class="step-circle">01</div>
+            <div>
+              <div class="step-title">Consulta entra</div>
+              <div class="step-desc">WhatsApp, Instagram, Facebook o tu web. Cualquier canal, cualquier hora.</div>
+              <span class="step-tag">Todos los canales</span>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="step-circle">02</div>
+            <div>
+              <div class="step-title">IA responde en segundos</div>
+              <div class="step-desc">Con tu voz, tu información, tus respuestas. Sin que toques el teléfono.</div>
+              <span class="step-tag">24/7 · En segundos</span>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="step-circle">03</div>
+            <div>
+              <div class="step-title">Califica al paciente</div>
+              <div class="step-desc">Identifica si es un paciente real, qué tratamiento busca y filtra curiosos.</div>
+              <span class="step-tag">Solo llegan los que convierten</span>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="step-circle">04</div>
+            <div>
+              <div class="step-title">Agenda el turno</div>
+              <div class="step-desc">El paciente elige su horario directo en tu calendario. Sin intermediarios.</div>
+              <span class="step-tag">Directo al calendario</span>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="step-circle">05</div>
+            <div>
+              <div class="step-title">Seguimiento automático</div>
+              <div class="step-desc">Recordatorios, recuperación de no-shows y reactivación de pacientes.</div>
+              <span class="step-tag">-70% no-shows</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       INSTRUCTIONS
+  ═══════════════════════════════════════ -->
+  <div class="instructions fade-up d3">
+    <h3>📋 Cómo integrar este componente en tu landing</h3>
+    <p>Este archivo es un componente standalone. Para integrarlo en tu landing principal (Claude Design), pegá el código del <code>.phone-scene</code> + <code>.phone-frame</code> + el bloque de JS de conversaciones donde corresponda.</p>
+    <p>El efecto parallax funciona con mouse over en desktop y con gyroscope en mobile. La conversación se reproduce automáticamente al hacer scroll al componente (IntersectionObserver). Para cambiar los mensajes, editá el array <code>CONVERSATIONS</code> al inicio del JS.</p>
+    <p>Cada instancia del celular reproduce la misma conversación pero con un delay diferente para que no estén sincronizadas.</p>
+  </div>
+
+</div>
+
+<script>
+// ─── CONVERSATION DATA ───
+// Cada mensaje: { type: 'incoming'|'outgoing', text, time, delay }
+const CONVERSATION = [
+  { type:'outgoing', text:'Hola, quería sacar turno para una consulta', time:'14:30', delay:600 },
+  { type:'incoming', text:'¡Hola! 👋 Soy el asistente de la clínica.\n¿Para qué especialidad necesitás el turno?', time:'14:30', delay:1400 },
+  { type:'outgoing', text:'Odontología', time:'14:31', delay:2400 },
+  { type:'incoming', text:'Perfecto ✅\n¿Tenés algún odontólogo de confianza en nuestra clínica?', time:'14:31', delay:3200 },
+  { type:'outgoing', text:'Sí, con el Dr. Martínez', time:'14:32', delay:4200 },
+  { type:'incoming', text:'Genial 😊 Te paso el link para que puedas agendarte directamente:\n👉 calendly.com/clinica/dr-martinez', time:'14:32', delay:5000 },
+  { type:'outgoing', text:'Ok, muchas gracias. ¡Ya me agendé!', time:'14:33', delay:6200 },
+  { type:'incoming', text:'🎉 ¡Cita confirmada!\n\nHola 👋 tu cita está confirmada para el día\n📅 Sábado 23 de mayo, 11:00 hs\n📍 Av. San Martín 1335, CABA\n\nRecordá llegar 10 minutos antes ✨\n\n¿Necesitás reagendar?\n👉 link-reagendamiento.com\n\n¡Te esperamos! 🦷', time:'14:33', delay:7200 },
+];
+
+// ─── PARALLAX ───
+function initParallax(sceneId, wrapperId) {
+  const scene = document.getElementById(sceneId);
+  const wrapper = document.getElementById(wrapperId);
+  if (!scene || !wrapper) return;
+
+  let currentX = 0, currentY = 0;
+  let targetX = 0, targetY = 0;
+  let rafId;
+
+  scene.addEventListener('mousemove', (e) => {
+    const rect = scene.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const dx = (e.clientX - cx) / (rect.width / 2);
+    const dy = (e.clientY - cy) / (rect.height / 2);
+    targetX = dy * -12;  // tilt X (rotate around X axis)
+    targetY = dx * 10;   // tilt Y (rotate around Y axis)
+  });
+
+  scene.addEventListener('mouseleave', () => {
+    targetX = 0;
+    targetY = 0;
+  });
+
+  function animate() {
+    currentX += (targetX - currentX) * 0.08;
+    currentY += (targetY - currentY) * 0.08;
+    wrapper.style.transform = `rotateX(${currentX}deg) rotateY(${currentY}deg)`;
+    rafId = requestAnimationFrame(animate);
+  }
+  animate();
+
+  // Device orientation for mobile
+  if (window.DeviceOrientationEvent) {
+    window.addEventListener('deviceorientation', (e) => {
+      if (e.beta && e.gamma) {
+        targetX = Math.max(-12, Math.min(12, (e.beta - 45) * 0.3));
+        targetY = Math.max(-10, Math.min(10, e.gamma * 0.3));
+      }
+    });
+  }
+}
+
+// ─── BUILD MESSAGES ───
+function buildMessage(msg, isLast) {
+  const div = document.createElement('div');
+  div.className = `msg ${msg.type}`;
+
+  const bubble = document.createElement('div');
+  bubble.className = 'bubble';
+
+  // Process text — convert URLs to links
+  const processedText = msg.text.replace(/(https?:\/\/[^\s]+|[a-z0-9-]+\.[a-z]{2,}\/[^\s]*)/gi, (url) => {
+    const href = url.startsWith('http') ? url : 'https://' + url;
+    return `<a class="bubble-link" href="${href}" target="_blank" rel="noopener">${url}</a>`;
+  });
+
+  bubble.innerHTML = processedText.replace(/\n/g, '<br>');
+
+  const timeEl = document.createElement('div');
+  timeEl.className = 'bubble-time';
+  timeEl.innerHTML = msg.type === 'outgoing'
+    ? `${msg.time} <span class="ticks">✓✓</span>`
+    : msg.time;
+
+  bubble.appendChild(timeEl);
+  div.appendChild(bubble);
+  return div;
+}
+
+// ─── PLAY CONVERSATION ───
+function playConversation(scrollId, delayOffset = 0) {
+  const container = document.getElementById(scrollId);
+  if (!container) return;
+
+  let typingDiv = document.createElement('div');
+  typingDiv.style.alignSelf = 'flex-start';
+  typingDiv.innerHTML = `<div class="typing-bubble" id="typing-${scrollId}">
+    <div class="typing-dot"></div>
+    <div class="typing-dot"></div>
+    <div class="typing-dot"></div>
+  </div>`;
+
+  CONVERSATION.forEach((msg, i) => {
+    const totalDelay = delayOffset + msg.delay;
+
+    if (msg.type === 'incoming') {
+      // Show typing indicator before incoming message
+      setTimeout(() => {
+        container.appendChild(typingDiv);
+        const tb = typingDiv.querySelector('.typing-bubble');
+        if (tb) tb.classList.add('show');
+        container.scrollTop = container.scrollHeight;
+      }, totalDelay - 600);
+
+      setTimeout(() => {
+        const tb = typingDiv.querySelector('.typing-bubble');
+        if (tb) tb.classList.remove('show');
+        setTimeout(() => {
+          if (typingDiv.parentNode) typingDiv.parentNode.removeChild(typingDiv);
+          typingDiv = document.createElement('div');
+          typingDiv.style.alignSelf = 'flex-start';
+          typingDiv.innerHTML = `<div class="typing-bubble" id="typing-${scrollId}">
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+          </div>`;
+        }, 300);
+      }, totalDelay - 100);
+    }
+
+    setTimeout(() => {
+      const el = buildMessage(msg);
+      container.appendChild(el);
+      // Trigger animation
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => el.classList.add('visible'));
+      });
+      container.scrollTop = container.scrollHeight;
+    }, totalDelay);
+  });
+
+  // Loop: replay after all messages + 4s pause
+  const lastDelay = CONVERSATION[CONVERSATION.length - 1].delay;
+  setTimeout(() => {
+    // Fade out and clear
+    container.style.opacity = '0';
+    container.style.transition = 'opacity .5s';
+    setTimeout(() => {
+      container.innerHTML = '';
+      container.style.opacity = '1';
+      playConversation(scrollId, delayOffset);
+    }, 600);
+  }, delayOffset + lastDelay + 4000);
+}
+
+// ─── INTERSECTION OBSERVER: trigger when in viewport ───
+function observeAndPlay(scrollId, delayOffset) {
+  const container = document.getElementById(scrollId);
+  if (!container) return;
+
+  let played = false;
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !played) {
+        played = true;
+        playConversation(scrollId, delayOffset);
+      }
+    });
+  }, { threshold: 0.3 });
+
+  obs.observe(container);
+}
+
+// ─── INIT ───
+document.addEventListener('DOMContentLoaded', () => {
+  initParallax('phone-scene-1', 'phone-1');
+  initParallax('phone-scene-2', 'phone-2');
+
+  // Phone 1 starts immediately, phone 2 with 1.5s offset so they're not in sync
+  observeAndPlay('scroll-1', 0);
+  observeAndPlay('scroll-2', 1500);
+});
+</script>
+</body>
+</html>

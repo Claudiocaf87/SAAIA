@@ -1,0 +1,1158 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#07060F">
+<title>Claf Digital — Sistema SAAIA · IA para Clínicas de Salud 24/7</title>
+<meta name="description" content="Sistema SAAIA: agendamiento automático con IA para clínicas y consultorios de salud. Respuesta en segundos, cobertura 24/7, sin intervención humana. Implementación en 7-14 días.">
+<link rel="icon" href="assets/claf-logo.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .price-urgency { display:flex; align-items:center; justify-content:center; gap:10px; max-width:700px; margin:0 auto 30px; padding:13px 22px; border:1px solid rgba(255,179,0,.32); background:rgba(255,179,0,.08); border-radius:12px; font-size:13.5px; color:rgba(255,255,255,.85); text-align:center; line-height:1.5; }
+  .price-urgency b { color: var(--amber); }
+  .price-urgency .pu-spots { animation: blink 1.6s ease-in-out infinite; }
+  .plan-strike { font-size:15px; color:var(--muted); text-decoration:line-through !important; text-decoration-color:currentColor; opacity:.6; font-weight:600; margin-left:7px; }
+  .guarantee-card { margin-top:8px; padding:40px 36px; border:1px solid rgba(0,230,118,.30); background:linear-gradient(160deg, rgba(0,230,118,.06), var(--surface) 70%); border-radius:18px; text-align:center; }
+  .guarantee-shield { font-size:42px; margin-bottom:14px; line-height:1; }
+  .guarantee-card > p { font-size:16px; color:rgba(255,255,255,.78); line-height:1.7; max-width:560px; margin:0 auto; }
+  .guarantee-checks { list-style:none; padding:0; margin:26px auto 0; max-width:480px; display:flex; flex-direction:column; gap:12px; text-align:left; }
+  .guarantee-checks li { display:flex; gap:12px; font-size:14.5px; color:rgba(255,255,255,.85); line-height:1.5; }
+  .guarantee-checks li::before { content:"\2713"; color:var(--green); font-weight:700; flex-shrink:0; }
+  /* Hero video: desktop vs mobile source */
+  .hero-video .hv-mobile { display:none; }
+  @media (max-width:768px){
+    .hero-video .hv-desktop { display:none; }
+    .hero-video .hv-mobile { display:block; }
+  }
+  /* Cuotas option (pricing) */
+  .cuotas-option { display:flex; align-items:center; gap:6px; margin-top:6px; padding:8px 12px; background:rgba(0,229,255,.06); border:1px solid rgba(0,229,255,.15); border-radius:8px; font-size:13px; color:rgba(255,255,255,.6); max-width:100%; }
+  .cuotas-option strong { color:#00E5FF; font-weight:600; }
+  .cuotas-icon { font-size:14px; flex-shrink:0; }
+  .cuotas-nota { font-size:11px; color:rgba(255,255,255,.3); margin-top:6px; line-height:1.5; font-family:'JetBrains Mono', monospace; }
+  /* Compare table -> stacked cards on mobile */
+  @media (max-width: 719px) {
+    .compare-grid { display:flex; flex-direction:column; gap:12px; border:0; background:transparent; border-radius:0; overflow:visible; }
+    .compare-cell { border:0; padding:0; font-size:14px; }
+    .compare-cell.head { display:none; }
+    .compare-cell.label { display:block; background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.06); border-bottom:0 !important; border-radius:12px 12px 0 0; padding:14px 16px 10px; font-weight:700; color:#fff; }
+    .compare-cell:has(.compare-bad), .compare-cell:has(.compare-good) { display:flex; justify-content:space-between; align-items:center; gap:16px; background:rgba(255,255,255,.03); border-left:1px solid rgba(255,255,255,.06); border-right:1px solid rgba(255,255,255,.06); padding:11px 16px; }
+    .compare-cell:has(.compare-bad) { border-bottom:1px solid rgba(255,255,255,.06) !important; }
+    .compare-cell:has(.compare-good) { border-bottom:1px solid rgba(255,255,255,.06) !important; border-radius:0 0 12px 12px; }
+    .compare-cell .lbl-mob { display:inline; }
+    .compare-bad { color: var(--red); }
+    .compare-good { color: var(--cyan); }
+    .compare-good::before { color: var(--cyan); }
+  }
+  /* ===== Section separators ===== */
+  .sec-sep { height:1px; border:0; margin:0; width:100%; }
+  .sec-sep.cyan { background:linear-gradient(90deg, transparent, rgba(0,229,255,.2), transparent); }
+  .sec-sep.red { background:linear-gradient(90deg, transparent, rgba(255,23,68,.2), transparent); }
+  /* ===== Dashboard section ===== */
+  .dash-wrap { max-width:1100px; }
+  .dash-grid { display:grid; grid-template-columns:1fr; gap:40px; align-items:center; }
+  @media (min-width:960px){ .dash-grid{ grid-template-columns:1fr 1fr; gap:56px; } }
+  .dash-feats { list-style:none; margin:26px 0 0; padding:0; display:flex; flex-direction:column; gap:20px; }
+  .dash-feats li { display:flex; gap:14px; align-items:flex-start; }
+  .df-ic { flex-shrink:0; width:40px; height:40px; border-radius:11px; display:flex; align-items:center; justify-content:center; font-size:18px; background:rgba(0,229,255,.08); border:1px solid rgba(0,229,255,.18); }
+  .df-t { font-weight:700; color:#fff; font-size:15px; }
+  .df-d { margin:3px 0 0; font-size:13.5px; color:rgba(255,255,255,.55); line-height:1.55; }
+  .dash-right { display:flex; justify-content:center; }
+  .dashboard-mockup { position:relative; background:#0E0B1F; border:1px solid rgba(0,229,255,.15); border-radius:16px; overflow:hidden; box-shadow:0 0 0 1px rgba(255,255,255,.06), 0 40px 80px rgba(0,0,0,.5), 0 0 60px rgba(0,229,255,.06); width:100%; max-width:560px; }
+  .dash-note { position:absolute; top:52px; right:10px; z-index:10; background:rgba(0,0,0,.7); border:1px solid rgba(255,255,255,.1); border-radius:8px; font-size:10px; color:var(--muted); padding:6px 10px; line-height:1.45; text-align:right; }
+  .dash-note span { color:rgba(255,255,255,.4); }
+  .dm-header { display:flex; align-items:center; justify-content:space-between; gap:10px; height:44px; padding:0 14px; background:#07060F; border-bottom:1px solid rgba(255,255,255,.06); }
+  .dm-logo { font-size:11px; color:var(--cyan); font-family:var(--mono); white-space:nowrap; }
+  .dm-tabs { display:flex; gap:14px; font-size:11px; font-family:var(--mono); }
+  .dm-tabs span { color:var(--muted); padding-bottom:3px; }
+  .dm-tabs span.active { color:#fff; border-bottom:2px solid var(--cyan); }
+  .dm-live { display:flex; align-items:center; gap:5px; font-size:11px; font-family:var(--mono); color:var(--green); white-space:nowrap; }
+  .dm-live .dot { width:7px; height:7px; border-radius:50%; background:var(--green); animation:blink 1.4s ease-in-out infinite; box-shadow:0 0 8px var(--green); }
+  .dm-cal { display:grid; grid-template-columns:repeat(5,1fr); gap:5px; padding:12px; }
+  .cal-col { display:flex; flex-direction:column; gap:5px; min-width:0; }
+  .cal-h { text-align:center; padding:4px 0 6px; }
+  .cal-h b { display:block; font-size:9.5px; font-family:var(--mono); letter-spacing:.08em; color:rgba(255,255,255,.6); }
+  .cal-h span { font-size:10px; color:var(--muted); }
+  .cal-today { background:rgba(255,23,68,.04); border-radius:8px; }
+  .cal-today .cal-h b, .cal-today .cal-h span { color:var(--red); }
+  .cal-ev { position:relative; border-radius:6px; padding:6px 7px; font-size:10.5px; line-height:1.3; color:rgba(255,255,255,.92); }
+  .cal-ev .ev-t { display:block; font-family:var(--mono); font-size:9px; opacity:.75; }
+  .cal-ev.cyan { background:rgba(0,229,255,.10); border:1px solid rgba(0,229,255,.30); }
+  .cal-ev.red { background:rgba(255,23,68,.12); border:1px solid rgba(255,23,68,.35); }
+  .cal-ev.green { background:rgba(0,230,118,.10); border:1px solid rgba(0,230,118,.32); }
+  .ev-badge { position:absolute; top:-6px; right:-4px; background:var(--green); color:#053; font-size:7px; font-weight:800; font-family:var(--mono); padding:1px 4px; border-radius:4px; letter-spacing:.04em; }
+  .cal-new { transition:opacity .3s ease; }
+  .dm-metrics { display:grid; grid-template-columns:repeat(4,1fr); background:#0a0818; border-top:1px solid rgba(255,255,255,.06); }
+  .dm-metric { padding:12px 10px; border-left:1px solid rgba(255,255,255,.05); }
+  .dm-metric:first-child { border-left:0; }
+  .dm-top { font-size:9.5px; color:rgba(255,255,255,.55); display:flex; align-items:center; gap:4px; white-space:nowrap; }
+  .dm-n { font-family:var(--mono); font-size:22px; font-weight:700; margin:4px 0 2px; line-height:1; }
+  .dm-n.white { color:#fff; } .dm-n.cyan { color:var(--cyan); } .dm-n.green { color:var(--green); }
+  .dm-s { font-size:9px; color:var(--muted); line-height:1.3; }
+  .dm-s.ok { color:var(--green); }
+  @media (max-width:768px){
+    .dashboard-mockup { max-width:100%; }
+    .cal-col-mar, .cal-col-jue { display:none; }
+    .dm-cal { grid-template-columns:repeat(3,1fr); }
+  }
+</style>
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1356026316038770');
+fbq('track', 'PageView');
+</script>
+<noscript>
+  <img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=1356026316038770&amp;ev=PageView&amp;noscript=1"/>
+</noscript>
+<!-- End Meta Pixel Code -->
+
+<!-- Meta Conversions API -->
+<script>
+// Conversions API — Server-side event deduplication
+const META_PIXEL_ID = '1356026316038770';
+const META_CAPI_TOKEN = 'EAAP86tTLzAoBRiyg9Yn92a5iMYum7025EbAYZA7uLZBgJbjpOZACYqPKe4c4VEhgaCe8H0Q3bZBOPTWCYwd3YD79qWPUoJfWwdI4OZAkQCgZAClNZBiGozstcryit7Atljtt4L8gzSZCw9pYUzyBdJF9ydBD1zooCmb0CRIAZBzixZBVHLzZBvp0abPmtRSRqhJvAZDZD';
+
+// Helper: generar event_id único para deduplicación
+function generateEventId() {
+  return 'eid_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+}
+
+// Helper: hashear datos del usuario con SHA-256
+async function hashData(data) {
+  const msgBuffer = new TextEncoder().encode(data.toLowerCase().trim());
+  const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+// Enviar evento a CAPI
+async function sendCAPIEvent(eventName, eventData = {}) {
+  const eventId = generateEventId();
+
+  const payload = {
+    data: [{
+      event_name: eventName,
+      event_time: Math.floor(Date.now() / 1000),
+      event_id: eventId,
+      event_source_url: window.location.href,
+      action_source: 'website',
+      user_data: {
+        client_ip_address: null,
+        client_user_agent: navigator.userAgent,
+        fbp: getCookie('_fbp') || null,
+        fbc: getCookie('_fbc') || null,
+      },
+      custom_data: eventData
+    }]
+  };
+
+  try {
+    await fetch(
+      `https://graph.facebook.com/v19.0/${META_PIXEL_ID}/events?access_token=${META_CAPI_TOKEN}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      }
+    );
+  } catch (e) {
+    console.warn('CAPI event failed:', e);
+  }
+
+  return eventId;
+}
+
+// Helper: leer cookies
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
+  return null;
+}
+
+// ── EVENTOS A TRACKEAR ──
+
+// 1. PageView — ya se dispara con el pixel de arriba
+
+// 2. ViewContent — cuando el usuario scrollea más del 50% de la página
+const scrollObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      fbq('track', 'ViewContent');
+      sendCAPIEvent('ViewContent');
+      scrollObserver.disconnect();
+    }
+  });
+}, { threshold: 0.1 });
+
+// Observar el footer como proxy de "llegó al final"
+window.addEventListener('DOMContentLoaded', () => {
+  const footer = document.querySelector('footer');
+  if (footer) scrollObserver.observe(footer);
+});
+
+// 3. Lead — cuando el usuario hace clic en cualquier botón de Calendly
+document.addEventListener('click', async (e) => {
+  const target = e.target.closest('a');
+  if (target && target.href && target.href.includes('calendly.com')) {
+    const eventId = await sendCAPIEvent('Lead', {
+      content_name: 'Auditoria Gratuita SAAIA',
+      currency: 'USD'
+    });
+    fbq('track', 'Lead', {}, { eventID: eventId });
+  }
+});
+
+// 4. InitiateCheckout — cuando el usuario hace clic en cualquier botón de precios
+document.addEventListener('click', async (e) => {
+  const btn = e.target.closest('button, a');
+  if (btn) {
+    const text = btn.textContent.toLowerCase();
+    if (
+      text.includes('empezar') ||
+      text.includes('agendar demo') ||
+      text.includes('consultar disponibilidad')
+    ) {
+      const planName = btn.textContent.trim();
+      const eventId = await sendCAPIEvent('InitiateCheckout', {
+        content_name: planName,
+        currency: 'USD'
+      });
+      fbq('track', 'InitiateCheckout', { content_name: planName }, { eventID: eventId });
+    }
+  }
+});
+
+// 5. CustomEvent — cuando el usuario completa la calculadora
+// (disparar desde el código de la calculadora existente,
+//  en el punto donde se revelan los resultados)
+window.trackCalculadoraCompleted = async function(lossMonth) {
+  const eventId = await sendCAPIEvent('CustomEvent', {
+    custom_event_type: 'CalculadoraCompleted',
+    value: lossMonth,
+    currency: 'USD'
+  });
+  fbq('trackCustom', 'CalculadoraCompleted',
+    { value: lossMonth, currency: 'USD' },
+    { eventID: eventId }
+  );
+};
+</script>
+<!-- End Meta Conversions API -->
+</head>
+<body>
+
+<div id="scroll-progress" aria-hidden="true"></div>
+
+<div class="bg-layer" aria-hidden="true"></div>
+<div class="bg-aurora" aria-hidden="true"></div>
+<div class="orb orb-1" aria-hidden="true"></div>
+<div class="orb orb-2" aria-hidden="true"></div>
+<div class="orb orb-3" aria-hidden="true"></div>
+<canvas id="money-fx" aria-hidden="true"></canvas>
+
+<!-- ============================ NAV ============================ -->
+<nav class="nav" data-screen-label="00 Nav">
+  <div class="container nav-inner">
+    <a href="#top" class="logo" aria-label="Claf Digital">
+      <img src="assets/claf-logo.png" alt="Claf" width="44" height="44">
+    </a>
+    <div class="nav-links">
+      <a href="#como-funciona">Cómo funciona</a>
+      <a href="#resultados">Resultados</a>
+      <a href="#precios">Precios</a>
+    </div>
+    <div style="display:flex;align-items:center;gap:14px;">
+      <a href="https://calendly.com/claudiocaf87/consultoria" target="_blank" rel="noopener noreferrer" class="nav-cta" style="display:none" id="nav-cta-d">Agendar asesoría →</a>
+      <button class="burger" type="button" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+<style>@media (min-width: 900px) { #nav-cta-d { display: inline-flex !important; } }</style>
+
+<div class="mobile-menu" aria-hidden="true">
+  <a href="#como-funciona">Cómo funciona</a>
+  <a href="#resultados">Resultados</a>
+  <a href="#precios">Precios</a>
+  <a href="https://calendly.com/claudiocaf87/consultoria" target="_blank" rel="noopener noreferrer" class="nav-cta">Agendar asesoría →</a>
+</div>
+
+<!-- ============================ 1. HERO ============================ -->
+<section id="top" class="hero" data-screen-label="01 Hero">
+  <div class="hero-video">
+    <video class="hv-desktop" autoplay loop muted playsinline preload="metadata" poster="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 9'%3E%3Crect width='16' height='9' fill='%23050410'/%3E%3C/svg%3E">
+      <source src="planeta.webm" type="video/webm">
+    </video>
+    <video class="hv-mobile" autoplay loop muted playsinline preload="metadata" poster="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 9'%3E%3Crect width='16' height='9' fill='%23050410'/%3E%3C/svg%3E">
+      <source src="hero-vertical.webm" type="video/webm">
+    </video>
+  </div>
+  <div class="hero-overlay"></div>
+
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <div class="reveal hero-pill">
+        <span class="spark">⚡</span> SISTEMA SAAIA · IA para Clínicas de Salud
+      </div>
+      <h1 class="reveal d1"><span style="color: #ffffff">Mientras el mundo gira,</span><span style="color: #ff1744"> tu clínica sigue agendando.</span></h1>
+      <p class="reveal d2 hero-sub" style="color: rgb(255, 255, 255)">
+        Implementamos el Sistema SAAIA en tu clínica de salud: respuesta automática en segundos,
+        agendamiento sin intervención humana, 24 horas al día, los 7 días de la semana.
+      </p>
+      <div class="reveal d3 hero-ctas">
+        <a href="#como-funciona" class="btn btn-primary">Ver cómo funciona →</a>
+        <a href="https://calendly.com/claudiocaf87/consultoria" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="border-color: rgb(255, 23, 68)">Asesoría gratis</a>
+      </div>
+    </div>
+
+    <div class="reveal d2 phone-scene" id="phone-scene-1">
+      <div class="phone-wrapper" id="phone-1">
+        <div class="phone-glow"></div>
+        <div class="phone-frame">
+          <div class="phone-notch"><div class="notch-cam"></div><div class="notch-speaker"></div></div>
+          <div class="phone-screen">
+            <div class="wa-header">
+              <div class="wa-back">‹</div>
+              <div class="wa-avatar">C</div>
+              <div class="wa-info">
+                <div class="wa-name">Clínica · SAAIA</div>
+                <div class="wa-status">en línea</div>
+              </div>
+              <div class="wa-icons"><span>📞</span><span>⋮</span></div>
+            </div>
+            <div class="wa-body">
+              <div class="wa-scroll" id="scroll-1">
+                <div class="wa-date"><span>Hoy</span></div>
+              </div>
+            </div>
+            <div class="wa-input-bar">
+              <div class="wa-input-field">Mensaje...</div>
+              <div class="wa-send-btn"><svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal d4 hero-stats">
+      <div class="hstat">
+        <div class="hstat-n">21×</div>
+        <div class="hstat-l">más chances de calificar un lead respondiendo en 5 minutos</div>
+        <div class="hstat-src" style="color: rgb(255, 255, 255)">— Harvard Business Review</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-n">7×</div>
+        <div class="hstat-l">más chances de calificar si respondés en menos de 1 hora</div>
+        <div class="hstat-src" style="color: rgb(255, 255, 255)">— Harvard Business Review</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-n">35–50%</div>
+        <div class="hstat-l">más ventas para quien responde primero al lead</div>
+        <div class="hstat-src" style="color: rgb(255, 255, 255)">— Velocify / Forbes Research</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-ind" aria-hidden="true">
+    <span style="color: rgb(255, 255, 255)">SCROLL</span>
+    <span class="arrow"></span>
+  </div>
+</section>
+
+<!-- ============================ 2. TRUST BAR ============================ -->
+<section class="trust" data-screen-label="02 Trust">
+  <div class="container">
+    <div class="trust-grid">
+      <div class="trust-item reveal">
+        <div class="trust-icn">⚡</div>
+        <div>
+          <div class="trust-n">En segundos</div>
+          <div class="trust-l">Tiempo de respuesta del Sistema SAAIA</div>
+        </div>
+      </div>
+      <div class="trust-item reveal d1 red">
+        <div class="trust-icn">🕐</div>
+        <div>
+          <div class="trust-n">2 horas</div>
+          <div class="trust-l">Promedio del sector sin automatización (Healthcare avg.)</div>
+        </div>
+      </div>
+      <div class="trust-item reveal d2 red">
+        <div class="trust-icn">📵</div>
+        <div>
+          <div class="trust-n">30%</div>
+          <div class="trust-l">de leads nunca reciben respuesta — Forbes Research</div>
+        </div>
+      </div>
+      <div class="trust-item reveal d3">
+        <div class="trust-icn">🔄</div>
+        <div>
+          <div class="trust-n">24/7</div>
+          <div class="trust-l">Cobertura sin intervención humana</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ 3. PAIN ============================ -->
+<section id="problema" class="section" data-screen-label="03 Pain">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow red">// EL PROBLEMA REAL</div>
+      <h2 class="section-h2">Tu clínica <span class="txt-red">pierde dinero</span><br>cada vez que no responde.</h2>
+      <p class="section-sub">
+        Cada consulta ignorada no es solo un mensaje sin leer. Es un paciente que ya
+        eligió otra clínica. Uno que buscó atención, no la encontró, y siguió adelante.
+      </p>
+    </div>
+
+    <div class="pain-grid">
+      <div class="pain-card reveal">
+        <div class="pain-icn">🔇</div>
+        <h3>Consultas ignoradas</h3>
+        <p>El 37% de las clínicas nunca responde el primer mensaje. Tu competencia de la vuelta de la esquina probablemente sí lo hace.</p>
+      </div>
+      <div class="pain-card reveal d1">
+        <div class="pain-icn">🕐</div>
+        <h3>Follow-up inexistente</h3>
+        <p>Los seguimientos tardíos le cuestan más pacientes a tu clínica que los malos precios. Un lead sin respuesta en 24 hs ya no convierte.</p>
+      </div>
+      <div class="pain-card reveal d2">
+        <div class="pain-icn">🌙</div>
+        <h3>Pérdida nocturna</h3>
+        <p>El 40% de las consultas llegan fuera del horario laboral. Si nadie responde, ese paciente ya tiene turno en otro lado cuando abrís mañana.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ 4. CALCULATOR ============================ -->
+<section id="calculadora" class="section" data-screen-label="04 Calculator" style="padding-top: 0;">
+  <div class="container">
+    <div class="section-head center reveal">
+      <div class="eyebrow" style="color: rgb(255, 23, 68)">// CALCULADORA DE ROI</div>
+      <h2 class="section-h2">¿Cuánto podías estar<br><span class="txt-red">dejando pasar</span> cada mes?</h2>
+      <p class="section-sub" style="margin: 14px auto 0;">Mové los controles con tus números reales. Es una estimación orientativa, pero puede sorprenderte.</p>
+    </div>
+
+    <div class="calc-card reveal d1">
+      <!-- ----- FASE 1: INPUTS ----- -->
+      <div id="calc-phase1">
+        <div class="calc-subgrid">
+          <div class="calc-sub">
+            <div class="calc-sub-title" style="color: rgb(255, 23, 68)">Tu clínica y tus leads</div>
+
+            <div class="calc-row">
+              <div class="calc-row-head">
+                <label class="calc-row-label" for="i-leads">Consultas / leads por mes</label>
+                <output class="calc-row-out" id="o-leads">100</output>
+              </div>
+              <input id="i-leads" class="cslider" type="range" min="20" max="800" step="10" value="100">
+            </div>
+
+            <div class="calc-row">
+              <div class="calc-row-head">
+                <label class="calc-row-label" for="i-ticket">Ticket promedio del tratamiento más vendido</label>
+                <output class="calc-row-out" id="o-ticket">$500</output>
+              </div>
+              <input id="i-ticket" class="cslider" type="range" min="50" max="5000" step="50" value="500">
+            </div>
+
+            <div class="calc-row">
+              <div class="calc-row-head">
+                <label class="calc-row-label">Tiempo de primera respuesta</label>
+              </div>
+              <div class="opt-grid cols-3">
+                <button type="button" class="opt" data-group="response" data-value="fast"><span class="opt-icn">⚡</span> Menos de 5 min</button>
+                <button type="button" class="opt active" data-group="response" data-value="mid"><span class="opt-icn">🕐</span> 5 a 30 min</button>
+                <button type="button" class="opt" data-group="response" data-value="slow"><span class="opt-icn">😴</span> Más de 1 hora</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="calc-sub">
+            <div class="calc-sub-title" style="color: rgb(255, 23, 68)">Cobertura y equipo</div>
+
+            <div class="calc-row">
+              <div class="calc-row-head">
+                <label class="calc-row-label" for="i-horas">Horas al día sin cobertura</label>
+                <output class="calc-row-out" id="o-horas">12 hs</output>
+              </div>
+              <input id="i-horas" class="cslider" type="range" min="0" max="24" step="1" value="12">
+            </div>
+
+            <div class="calc-row">
+              <div class="calc-row-head">
+                <label class="calc-row-label" for="i-equipo">Personas que atienden consultas</label>
+                <output class="calc-row-out" id="o-equipo">2 personas</output>
+              </div>
+              <input id="i-equipo" class="cslider" type="range" min="1" max="10" step="1" value="2">
+            </div>
+
+            <div class="calc-row">
+              <div class="calc-row-head">
+                <label class="calc-row-label">Tasa de cierre actual</label>
+              </div>
+              <div class="opt-grid cols-4">
+                <button type="button" class="opt" data-group="cierre" data-value="c1"><span class="opt-icn">📉</span> &lt; 30%</button>
+                <button type="button" class="opt active" data-group="cierre" data-value="c2"><span class="opt-icn">📊</span> 30–50%</button>
+                <button type="button" class="opt" data-group="cierre" data-value="c3"><span class="opt-icn">📈</span> 50–70%</button>
+                <button type="button" class="opt" data-group="cierre" data-value="c4"><span class="opt-icn">🏆</span> &gt; 70%</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="calc-preview">
+          Con estos datos, tu pérdida potencial estimada ronda los <b id="preview-n">$0</b> USD/mes
+        </div>
+
+        <button class="calc-go" id="calc-go" type="button">Calcular mi pérdida potencial →</button>
+      </div>
+
+      <!-- ----- LOADING ----- -->
+      <div id="calc-loading" class="calc-loading" aria-hidden="true">
+        <div class="spinner"></div>
+        <div class="load-steps">
+          <div class="load-step">✓ Procesando leads en riesgo por demora...</div>
+          <div class="load-step">✓ Calculando horas sin cobertura...</div>
+          <div class="load-step">✓ Estimando ventas potenciales no cerradas...</div>
+          <div class="load-step">✓ Generando diagnóstico personalizado...</div>
+        </div>
+      </div>
+
+      <!-- ----- FASE 2: RESULTS ----- -->
+      <div id="calc-results" class="calc-results" aria-live="polite">
+        <!-- Loss big -->
+        <div class="res-block res-loss-card">
+          <div class="res-loss-cap">Tu pérdida potencial estimada</div>
+          <div class="res-loss-n" id="res-loss-n">$0</div>
+          <div class="res-loss-yr">potencial al mes · hasta <b id="res-loss-yr-n">$0</b> al año</div>
+          <div class="res-eq">
+            <div class="res-eq-title">Eso es equivalente a...</div>
+            <div class="res-eq-grid" id="res-eq-grid"></div>
+          </div>
+        </div>
+
+        <!-- 4 metrics -->
+        <div class="res-block res-mgrid">
+          <div class="res-metric red">
+            <div class="res-metric-n" id="m-leads">0</div>
+            <div class="res-metric-l">Leads en riesgo de enfriarse / mes</div>
+          </div>
+          <div class="res-metric amber">
+            <div class="res-metric-n" id="m-cost">$0</div>
+            <div class="res-metric-l">Costo estimado por lead no atendido</div>
+          </div>
+          <div class="res-metric red">
+            <div class="res-metric-n" id="m-hours">0 hs</div>
+            <div class="res-metric-l">Horas/mes sin cobertura</div>
+          </div>
+          <div class="res-metric green">
+            <div class="res-metric-n" id="m-recovery">0%</div>
+            <div class="res-metric-l">Potencial de recuperación con SAAIA</div>
+          </div>
+        </div>
+
+        <!-- Hours block -->
+        <div class="res-block res-hours-card">
+          <div class="res-hours-row">
+            <div>
+              <div class="res-hours-n"><span id="h-total">0</span><span style="font-size:.5em; color:rgba(255,255,255,.5); margin-left:8px">hs/mes</span></div>
+              <div class="res-hours-l">Total de horas sin cobertura este mes</div>
+            </div>
+          </div>
+          <div class="bar-track"><div class="bar-fill" id="h-bar"></div></div>
+          <div class="res-hours-pct" id="h-pct">0% del mes sin cobertura.</div>
+
+          <div class="res-eq" style="margin-top: 22px;">
+            <div class="res-eq-title">Ese tiempo es equivalente a...</div>
+            <div class="res-eq-grid" id="res-hours-equiv"></div>
+          </div>
+        </div>
+
+        <!-- Distribution -->
+        <div class="res-block res-diag" style="background: rgba(255,255,255,.025); border-color: var(--border);">
+          <div class="res-diag-title" style="color: rgba(255,255,255,.7);">DISTRIBUCIÓN DE LA PÉRDIDA</div>
+          <div class="res-dist">
+            <div class="res-dist-row r">
+              <div class="res-dist-head"><span class="lbl">Leads perdidos por demora</span><span class="val" id="d1-val">0%</span></div>
+              <div class="bar-track"><div class="bar-fill" id="d1-bar"></div></div>
+            </div>
+            <div class="res-dist-row a">
+              <div class="res-dist-head"><span class="lbl">Ventas perdidas sin cobertura</span><span class="val" id="d2-val">0%</span></div>
+              <div class="bar-track"><div class="bar-fill amber" id="d2-bar"></div></div>
+            </div>
+            <div class="res-dist-row g">
+              <div class="res-dist-head"><span class="lbl">Recuperable con SAAIA</span><span class="val" id="d3-val">0%</span></div>
+              <div class="bar-track"><div class="bar-fill green" id="d3-bar"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Diagnostic -->
+        <div class="res-block res-diag">
+          <div class="res-diag-title">DIAGNÓSTICO PERSONALIZADO</div>
+          <ul id="res-diag-ul"></ul>
+        </div>
+
+        <!-- CTA -->
+        <div class="res-block res-cta">
+          <p>Ahora que sabés el número → Agendá tu asesoría gratuita</p>
+          <a href="https://calendly.com/claudiocaf87/consultoria" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-block" style="max-width: 460px; margin: 0 auto;">
+            Agendar asesoría gratuita →
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ 6. SAAIA FLOW ============================ -->
+<section id="como-funciona" class="section" data-screen-label="06 Flow" style="padding-top: 0;">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow" style="color: rgb(255, 23, 68)">// LA SOLUCIÓN</div>
+      <h2 class="section-h2">De la consulta al turno confirmado.<br><span class="txt-cyan" style="color: rgb(255, 23, 68)">Sin intervención humana.</span></h2>
+      <p class="section-sub">
+        El Sistema SAAIA son 5 módulos que trabajan como un solo organismo.
+        No son herramientas sueltas. Es un sistema diseñado para clínicas y consultorios de salud.
+      </p>
+    </div>
+
+    <div class="flow-section-grid">
+      <!-- Phone on the LEFT -->
+      <div class="reveal phone-scene" id="phone-scene-2">
+        <div class="phone-wrapper" id="phone-2">
+          <div class="phone-glow cyan"></div>
+          <div class="phone-frame">
+            <div class="phone-notch"><div class="notch-cam"></div><div class="notch-speaker"></div></div>
+            <div class="phone-screen">
+              <div class="wa-header">
+                <div class="wa-back">‹</div>
+                <div class="wa-avatar" style="background:linear-gradient(135deg,#0E0B1F,#00E5FF);color:#0E0B1F;">S</div>
+                <div class="wa-info">
+                  <div class="wa-name">Asistente SAAIA</div>
+                  <div class="wa-status">responde en segundos</div>
+                </div>
+                <div class="wa-icons"><span>📞</span><span>⋮</span></div>
+              </div>
+              <div class="wa-body">
+                <div class="wa-scroll" id="scroll-2">
+                  <div class="wa-date"><span>Hoy</span></div>
+                </div>
+              </div>
+              <div class="wa-input-bar">
+                <div class="wa-input-field">Mensaje...</div>
+                <div class="wa-send-btn"><svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Steps on the RIGHT -->
+      <div>
+
+    <div class="flow">
+      <div class="flow-step reveal">
+        <div class="flow-num">01</div>
+        <div class="flow-body">
+          <div class="flow-title">Consulta entra</div>
+          <p class="flow-desc">El paciente escribe por WhatsApp, Instagram, Facebook o tu web. Cualquier canal, cualquier hora.</p>
+          <span class="flow-tag">Todos los canales</span>
+        </div>
+      </div>
+      <div class="flow-step reveal d1">
+        <div class="flow-num">02</div>
+        <div class="flow-body">
+          <div class="flow-title">IA responde en segundos</div>
+          <p class="flow-desc">El Sistema SAAIA responde de inmediato, con tu voz, tu información, tus respuestas. Sin que toques el teléfono.</p>
+          <span class="flow-tag">En segundos · 24/7</span>
+        </div>
+      </div>
+      <div class="flow-step reveal d2">
+        <div class="flow-num">03</div>
+        <div class="flow-body">
+          <div class="flow-title">Califica al paciente</div>
+          <p class="flow-desc">La IA identifica si es un paciente real, qué tratamiento busca y cuándo quiere atenderse. Filtra curiosos automáticamente.</p>
+          <span class="flow-tag">Solo llegan los que convierten</span>
+        </div>
+      </div>
+      <div class="flow-step reveal d3">
+        <div class="flow-num">04</div>
+        <div class="flow-body">
+          <div class="flow-title">Agenda el turno</div>
+          <p class="flow-desc">El paciente elige su horario directamente en tu calendario. Sin llamadas, sin idas y vueltas, sin intermediarios.</p>
+          <span class="flow-tag">Directo al calendario</span>
+        </div>
+      </div>
+      <div class="flow-step reveal d4">
+        <div class="flow-num">05</div>
+        <div class="flow-body">
+          <div class="flow-title">Seguimiento automático</div>
+          <p class="flow-desc">Recordatorios antes del turno. Recuperación de ausentes. Reactivación de pacientes que no cerraron.</p>
+          <span class="flow-tag">Menos ausencias</span>
+        </div>
+      </div>
+    </div>
+      </div><!-- /right column -->
+    </div><!-- /.flow-section-grid -->
+  </div>
+</section>
+
+<div class="sec-sep cyan" aria-hidden="true"></div>
+
+<!-- ============================ 6b. DASHBOARD ============================ -->
+<section class="section" data-screen-label="06b Dashboard">
+  <div class="container dash-wrap">
+    <div class="dash-grid">
+      <!-- LEFT -->
+      <div class="dash-copy">
+        <div class="section-head reveal" style="margin:0;">
+          <div class="eyebrow" style="color: var(--cyan)">// TU CLÍNICA, ORDENADA POR FIN</div>
+          <h2 class="section-h2">Dejá el cuaderno.<br>Dejá el Excel.<br><span class="txt-red">Todo en un solo lugar.</span></h2>
+          <p class="section-sub">Historial de cada paciente, turnos confirmados, conversaciones, seguimientos y métricas — todo centralizado, todo en tiempo real, accesible desde cualquier dispositivo.</p>
+        </div>
+        <ul class="dash-feats reveal d1">
+          <li><span class="df-ic">📋</span><div><div class="df-t">Historial del paciente</div><p class="df-d">Cada consulta, cada mensaje, cada turno registrado automáticamente. Sin que nadie lo cargue a mano.</p></div></li>
+          <li><span class="df-ic">📅</span><div><div class="df-t">Agenda en tiempo real</div><p class="df-d">Los turnos se llenan solos. Ves disponibilidad, confirmaciones y cancelaciones al instante.</p></div></li>
+          <li><span class="df-ic">💬</span><div><div class="df-t">Todas las conversaciones centralizadas</div><p class="df-d">WhatsApp, Instagram y Facebook en una sola bandeja. Nunca más perder un mensaje entre aplicaciones.</p></div></li>
+          <li><span class="df-ic">📊</span><div><div class="df-t">Métricas que importan</div><p class="df-d">Cuántos leads entraron, cuántos agendaron, cuántos asistieron. Datos reales para tomar decisiones reales.</p></div></li>
+        </ul>
+      </div>
+      <!-- RIGHT -->
+      <div class="dash-right reveal d2">
+        <div class="dashboard-mockup">
+          <div class="dash-note">💡 Datos de ejemplo<br><span>Tu dashboard real se ve así</span></div>
+          <div class="dm-header">
+            <div class="dm-logo">● CRM Clínica</div>
+            <div class="dm-tabs"><span class="active">Agenda</span><span>Pacientes</span><span>Conversaciones</span></div>
+            <div class="dm-live"><span class="dot"></span>En vivo</div>
+          </div>
+          <div class="dm-cal">
+            <div class="cal-col">
+              <div class="cal-h"><b>LUN</b><span>16</span></div>
+              <div class="cal-ev cyan"><span class="ev-t">09:00</span>Consulta inicial</div>
+              <div class="cal-ev cyan"><span class="ev-t">11:30</span>Ortodoncia</div>
+              <div class="cal-ev cyan"><span class="ev-t">16:00</span>Limpieza dental</div>
+            </div>
+            <div class="cal-col cal-col-mar">
+              <div class="cal-h"><b>MAR</b><span>17</span></div>
+              <div class="cal-ev cyan"><span class="ev-t">10:00</span>Blanqueamiento</div>
+              <div class="cal-ev cyan"><span class="ev-t">14:30</span>Revisión</div>
+            </div>
+            <div class="cal-col cal-today">
+              <div class="cal-h"><b>MIÉ</b><span>18</span></div>
+              <div class="cal-ev red"><span class="ev-t">09:30</span>Implante — 1ra fase</div>
+              <div class="cal-ev cyan"><span class="ev-t">11:00</span>Ortodoncia</div>
+              <div class="cal-ev green cal-new"><span class="ev-badge">NUEVO</span><span class="ev-t">15:00</span>Consulta nueva</div>
+            </div>
+            <div class="cal-col cal-col-jue">
+              <div class="cal-h"><b>JUE</b><span>19</span></div>
+              <div class="cal-ev cyan"><span class="ev-t">10:30</span>Limpieza</div>
+              <div class="cal-ev cyan"><span class="ev-t">16:30</span>Blanqueamiento</div>
+            </div>
+            <div class="cal-col">
+              <div class="cal-h"><b>VIE</b><span>20</span></div>
+              <div class="cal-ev cyan"><span class="ev-t">09:00</span>Revisión post-op</div>
+              <div class="cal-ev green cal-new"><span class="ev-badge">NUEVO</span><span class="ev-t">13:00</span>Consulta inicial</div>
+            </div>
+          </div>
+          <div class="dm-metrics">
+            <div class="dm-metric"><div class="dm-top"><span>📥</span>Leads hoy</div><div class="dm-n white">12</div><div class="dm-s">consultas recibidas</div></div>
+            <div class="dm-metric"><div class="dm-top"><span>📅</span>Agendados</div><div class="dm-n cyan">8</div><div class="dm-s">turnos programados</div></div>
+            <div class="dm-metric"><div class="dm-top"><span>✅</span>Confirmados</div><div class="dm-n green">7</div><div class="dm-s">asistencia confirmada</div></div>
+            <div class="dm-metric"><div class="dm-top"><span>💬</span>Sin respuesta</div><div class="dm-n green">0</div><div class="dm-s ok">✓ IA activa 24/7</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="sec-sep red" aria-hidden="true"></div>
+
+<script>
+(function(){
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) return;
+  var news = Array.prototype.slice.call(document.querySelectorAll('.cal-new'));
+  if (!news.length) return;
+  var i = 0;
+  setInterval(function(){
+    var el = news[i % news.length];
+    if (el) { el.style.opacity = '0.7'; setTimeout(function(){ el.style.opacity = '1'; }, 300); }
+    i++;
+  }, 4000);
+})();
+</script>
+
+<!-- ============================ 7. BEFORE / AFTER ============================ -->
+<section id="resultados" class="section" data-screen-label="07 Compare" style="padding-top: 0;">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow" style="color: rgb(255, 23, 68)">// LA DIFERENCIA</div>
+      <h2 class="section-h2">Tu clínica hoy vs.<br>tu clínica con <span class="txt-cyan" style="color: rgb(255, 23, 68)">SAAIA</span>.</h2>
+    </div>
+
+    <div class="compare-grid reveal d1">
+      <div class="compare-cell head">Aspecto</div>
+      <div class="compare-cell head red">Sin SAAIA</div>
+      <div class="compare-cell head cyan">Con SAAIA</div>
+
+      <div class="compare-cell label">Tiempo de respuesta</div>
+      <div class="compare-cell"><span class="lbl-mob">Sin SAAIA</span><span class="compare-bad">2 horas promedio</span></div>
+      <div class="compare-cell"><span class="lbl-mob">Con SAAIA</span><span class="compare-good">Segundos</span></div>
+
+      <div class="compare-cell label">Cobertura horaria</div>
+      <div class="compare-cell"><span class="lbl-mob">Sin SAAIA</span><span class="compare-bad">8–10 hs laborales</span></div>
+      <div class="compare-cell"><span class="lbl-mob">Con SAAIA</span><span class="compare-good">24/7</span></div>
+
+      <div class="compare-cell label">Gestión de leads</div>
+      <div class="compare-cell"><span class="lbl-mob">Sin SAAIA</span><span class="compare-bad">Manual, olvidable</span></div>
+      <div class="compare-cell"><span class="lbl-mob">Con SAAIA</span><span class="compare-good">100% automatizada</span></div>
+
+      <div class="compare-cell label">Follow-up</div>
+      <div class="compare-cell"><span class="lbl-mob">Sin SAAIA</span><span class="compare-bad">Inexistente o tardío</span></div>
+      <div class="compare-cell"><span class="lbl-mob">Con SAAIA</span><span class="compare-good">Automático e inmediato</span></div>
+
+      <div class="compare-cell label">No-shows</div>
+      <div class="compare-cell"><span class="lbl-mob">Sin SAAIA</span><span class="compare-bad">Sin control</span></div>
+      <div class="compare-cell"><span class="lbl-mob">Con SAAIA</span><span class="compare-good">Reducidos hasta 70%</span></div>
+
+      <div class="compare-cell label" style="border-bottom: 0;">Capacidad de atención</div>
+      <div class="compare-cell" style="border-bottom: 0;"><span class="lbl-mob">Sin SAAIA</span><span class="compare-bad">Limitada por el equipo</span></div>
+      <div class="compare-cell" style="border-bottom: 0;"><span class="lbl-mob">Con SAAIA</span><span class="compare-good">Ilimitada</span></div>
+    </div>
+
+    <div class="equiv-box reveal d2">
+      <h4>💸 Lo que representa esa diferencia en tu vida</h4>
+      <ul>
+        <li><span class="ic">💸</span><span>Cada mes sin SAAIA, los pacientes que no reciben respuesta eligen otra clínica — y rara vez vuelven.</span></li>
+        <li><span class="ic">⏰</span><span>Esas horas sin cobertura son oportunidades que tu competencia está aprovechando mientras tu clínica está en silencio.</span></li>
+        <li><span class="ic">📈</span><span>Con SAAIA, tu clínica puede atender muchas más consultas sin sumar una sola persona al equipo.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ 8. TESTIMONIALS ============================ -->
+<section class="section" data-screen-label="08 Testimonials" style="padding-top: 0;">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow" style="color: rgb(255, 23, 68)">// RESULTADOS REALES</div>
+      <h2 class="section-h2">Clínicas que ya no<br><span class="txt-red">pierden pacientes</span>.</h2>
+      <p class="section-sub" style="color: rgb(255, 255, 255)">
+        Respaldados por los datos. Harvard Business Review analizó 2,24 millones de
+        leads y confirmó: las empresas que responden en menos de 5 minutos califican
+        leads 21 veces más que las que esperan 30 minutos.
+      </p>
+    </div>
+
+    <div class="testi-marquees reveal d1">
+      <div class="testi-row">
+        <div class="testi-track l">
+          <div class="testi-card"><div class="stars">★★★★★</div><blockquote>"Antes se nos escapaban consultas todos los fines de semana. Ahora el sistema responde solo y el lunes la agenda ya está mucho más armada."</blockquote><div class="who"><div class="nm">Dra. Valentina Torres</div><div class="rl">Odontología · Córdoba</div></div></div>
+          <div class="testi-card"><div class="stars">★★★★★</div><blockquote>"Las consultas que entraban de noche se perdían. Desde que respondemos siempre, se nota la diferencia en los turnos."</blockquote><div class="who"><div class="nm">Dr. Federico Álvarez</div><div class="rl">Clínica Médica · Buenos Aires</div></div></div>
+          <div class="testi-card"><div class="stars">★★★★★</div><blockquote>"Lo que más valoro es no estar pendiente del teléfono. El sistema atiende y yo me enfoco en el paciente."</blockquote><div class="who"><div class="nm">Lic. Carolina Ruiz</div><div class="rl">Estética · Mendoza</div></div></div>
+          <div class="testi-card"><div class="stars">★★★★★</div><blockquote>"Pasamos de dejar mensajes sin responder a una agenda mucho más ordenada. Y casi todo pasa solo."</blockquote><div class="who"><div class="nm">Dr. Martín Espinoza</div><div class="rl">Kinesiología · Rosario</div></div></div>
+          <div class="testi-card"><div class="stars">★★★★★</div><blockquote>"Los recordatorios automáticos nos ayudaron a tener bastantes menos ausencias. La diferencia se nota en la semana."</blockquote><div class="who"><div class="nm">Dr. Joaquín Méndez</div><div class="rl">Dermatología · La Plata</div></div></div>
+          <!-- duplicate for seamless loop -->
+          <div class="testi-card" aria-hidden="true"><div class="stars">★★★★★</div><blockquote>"Antes se nos escapaban consultas todos los fines de semana. Ahora el sistema responde solo y el lunes la agenda ya está mucho más armada."</blockquote><div class="who"><div class="nm">Dra. Valentina Torres</div><div class="rl">Odontología · Córdoba</div></div></div>
+          <div class="testi-card" aria-hidden="true"><div class="stars">★★★★★</div><blockquote>"Las consultas que entraban de noche se perdían. Desde que respondemos siempre, se nota la diferencia en los turnos."</blockquote><div class="who"><div class="nm">Dr. Federico Álvarez</div><div class="rl">Clínica Médica · Buenos Aires</div></div></div>
+          <div class="testi-card" aria-hidden="true"><div class="stars">★★★★★</div><blockquote>"Lo que más valoro es no estar pendiente del teléfono. El sistema atiende y yo me enfoco en el paciente."</blockquote><div class="who"><div class="nm">Lic. Carolina Ruiz</div><div class="rl">Estética · Mendoza</div></div></div>
+          <div class="testi-card" aria-hidden="true"><div class="stars">★★★★★</div><blockquote>"Pasamos de dejar mensajes sin responder a una agenda mucho más ordenada. Y casi todo pasa solo."</blockquote><div class="who"><div class="nm">Dr. Martín Espinoza</div><div class="rl">Kinesiología · Rosario</div></div></div>
+          <div class="testi-card" aria-hidden="true"><div class="stars">★★★★★</div><blockquote>"Los recordatorios automáticos nos ayudaron a tener bastantes menos ausencias. La diferencia se nota en la semana."</blockquote><div class="who"><div class="nm">Dr. Joaquín Méndez</div><div class="rl">Dermatología · La Plata</div></div></div>
+        </div>
+      </div>
+
+      <div class="testi-row">
+        <div class="testi-track r">
+          <div class="testi-card"><div class="stars">★★★★★</div><blockquote>"Mi recepción volvió a enfocarse en los pacientes. La IA filtra las consultas y nos pasa las que importan."</blockquote><div class="who"><div class="nm">Dra. Sofía Bernal</div><div class="rl">Ginecología · Rosario</div></div></div>
+          <div class="testi-card"><div class="stars">★★★★★</div><blockquote>"Setup rápido y buen acompañamiento. En pocos días ya respondíamos consultas a toda hora."</blockquote><div class="who"><div class="nm">Dr. Hernán Castro</div><div class="rl">Traumatología · Salta</div></div></div>
+          <div class="testi-card"><div class="stars">★★★★★</div><blockquote>"Las consultas nocturnas que antes se escapaban ahora quedan registradas y con seguimiento."</blockquote><div class="who"><div class="nm">Lic. Paula Romero</div><div class="rl">Psicología · CABA</div></div></div>
+          <div class="testi-card"><div class="stars">★★★★★</div><blockquote>"Lo recomendé a varios colegas. Lo mejor es la constancia: responde igual el lunes que el domingo."</blockquote><div class="who"><div class="nm">Dr. Lucas Fernández</div><div class="rl">Pediatría · Tucumán</div></div></div>
+          <div class="testi-card"><div class="stars">★★★★★</div><blockquote>"El panel de métricas me cambió cómo veo la clínica. Por primera vez tengo datos claros de cada consulta."</blockquote><div class="who"><div class="nm">Lic. Marina Sosa</div><div class="rl">Nutrición · Córdoba</div></div></div>
+          <!-- duplicate for seamless loop -->
+          <div class="testi-card" aria-hidden="true"><div class="stars">★★★★★</div><blockquote>"Mi recepción volvió a enfocarse en los pacientes. La IA filtra las consultas y nos pasa las que importan."</blockquote><div class="who"><div class="nm">Dra. Sofía Bernal</div><div class="rl">Ginecología · Rosario</div></div></div>
+          <div class="testi-card" aria-hidden="true"><div class="stars">★★★★★</div><blockquote>"Setup rápido y buen acompañamiento. En pocos días ya respondíamos consultas a toda hora."</blockquote><div class="who"><div class="nm">Dr. Hernán Castro</div><div class="rl">Traumatología · Salta</div></div></div>
+          <div class="testi-card" aria-hidden="true"><div class="stars">★★★★★</div><blockquote>"Las consultas nocturnas que antes se escapaban ahora quedan registradas y con seguimiento."</blockquote><div class="who"><div class="nm">Lic. Paula Romero</div><div class="rl">Psicología · CABA</div></div></div>
+          <div class="testi-card" aria-hidden="true"><div class="stars">★★★★★</div><blockquote>"Lo recomendé a varios colegas. Lo mejor es la constancia: responde igual el lunes que el domingo."</blockquote><div class="who"><div class="nm">Dr. Lucas Fernández</div><div class="rl">Pediatría · Tucumán</div></div></div>
+          <div class="testi-card" aria-hidden="true"><div class="stars">★★★★★</div><blockquote>"El panel de métricas me cambió cómo veo la clínica. Por primera vez tengo datos claros de cada consulta."</blockquote><div class="who"><div class="nm">Lic. Marina Sosa</div><div class="rl">Nutrición · Córdoba</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <p class="stat-sources reveal d3"><span style="color: #ffffff">
+      <b>Fuente: Harvard Business Review</b> (Oldroyd, McElheran, Elkington — 2,24M leads analizados)<br>
+      21× más calificaciones respondiendo en 5 min vs. 30 min · 7× más calificaciones en menos de 1 hora · 35–50% más ventas para quien responde primero (Velocify)
+    </span></p>
+  </div>
+</section>
+
+<!-- ============================ 9. FAQ ============================ -->
+<section class="section" data-screen-label="09 FAQ" style="padding-top: 0;">
+  <div class="container" style="max-width: 820px;">
+    <div class="section-head center reveal">
+      <div class="eyebrow" style="color: rgb(255, 23, 68)">// PREGUNTAS FRECUENTES</div>
+      <h2 class="section-h2">Todo lo que necesitás saber<br>antes de empezar.</h2>
+    </div>
+
+    <div class="faq reveal d1">
+      <div class="faq-item open">
+        <button class="faq-q" type="button">
+          ¿Necesito saber de tecnología para usar SAAIA?
+          <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">Para nada. Nosotros implementamos todo. Vos nos das la información de tu clínica (horarios, tratamientos, preguntas frecuentes) y en días el sistema está funcionando. Tu equipo no necesita aprender nada nuevo.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" type="button">
+          ¿En cuánto tiempo está funcionando?
+          <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">En promedio entre 7 y 14 días desde que comenzamos. Depende de la complejidad de tu clínica y la cantidad de canales a integrar.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" type="button">
+          ¿Y si la IA no sabe responder algo?
+          <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">El sistema tiene una base de conocimiento que construimos juntos con tu información. Para preguntas fuera de ese rango, deriva al equipo humano de forma elegante. Nunca deja un paciente sin respuesta.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" type="button">
+          ¿Se integra con mi calendario actual?
+          <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">Sí. Se integra con Google Calendar, Outlook, y los principales sistemas de gestión. El paciente agenda en tiempo real en tu disponibilidad real.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" type="button">
+          ¿Qué pasa si quiero cancelar?
+          <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">Sin penalidades ni contratos anuales. Si en algún momento decidís no continuar, te acompañamos en la transición sin fricción.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" type="button">
+          ¿Funciona para cualquier especialidad médica?
+          <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">Sí. Lo hemos adaptado para odontología, medicina general, estética, psicología, kinesiología, dermatología y más. El sistema se personaliza para el lenguaje y los flujos de cada especialidad.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ 10. PRICING ============================ -->
+<section id="precios" class="section" data-screen-label="10 Pricing" style="padding-top: 0;">
+  <div class="container">
+    <div class="section-head center reveal">
+      <div class="eyebrow" style="color: rgb(255, 23, 68)">// PLANES Y PRECIOS</div>
+      <h2 class="section-h2">Elegí el nivel de automatización<br>que tu clínica necesita.</h2>
+      <p class="section-sub" style="margin: 14px auto 0;">Setup único + mantenimiento mensual. Sin contratos anuales. Sin sorpresas.</p>
+    </div>
+
+    <div class="price-urgency reveal" style="border-color: rgba(255, 0, 0, 0.32)">
+      <span class="pu-icn">⏰</span>
+      <span>OFERTA POR TIEMPO LIMITADO — <b>20% OFF</b> en el setup · Quedan <b class="pu-spots">7 lugares</b> este mes</span>
+    </div>
+
+    <div class="plans">
+      <article class="plan reveal">
+        <div>
+          <div class="plan-name">Agente Triple SAAIA</div>
+          <div class="plan-sub" style="color: rgb(255, 255, 255)">Entrada al sistema</div>
+        </div>
+        <p class="plan-desc" style="color: rgb(255, 255, 255)">Para la clínica que quiere dejar de perder leads sin depender de una persona que esté disponible.</p>
+        <div class="plan-prices">
+          <div>
+            <div class="plan-pblock-label" style="color: rgb(255, 255, 255)">SETUP · 20% OFF</div>
+            <div class="plan-pblock-val">USD 297 <s class="plan-strike">USD 370</s></div>
+            <div class="plan-pblock-meta" style="color: rgb(255, 255, 255)">pago único</div>
+          </div>
+          <div>
+            <div class="plan-pblock-label" style="color: rgb(255, 255, 255)">Mantenimiento</div>
+            <div class="plan-pblock-val">USD 127</div>
+            <div class="plan-pblock-meta" style="color: rgb(255, 255, 255)">/ mes</div>
+          </div>
+        </div>
+        <div class="cuotas-option">
+          <span class="cuotas-icon">💳</span>
+          <span class="cuotas-text">o <strong>3 cuotas de USD 185</strong></span>
+        </div>
+        <p class="cuotas-nota">* Sistema activo desde el primer pago. Cuotas 2 y 3 a los 30 y 60 días.</p>
+        <ul class="plan-feat">
+          <li>Agente IA para WhatsApp · Atención 24/7</li>
+          <li>Filtro automático de curiosos</li>
+          <li>Gestión centralizada de chats (WhatsApp, IG, FB)</li>
+          <li>Base de conocimiento con tus archivos y FAQs</li>
+          <li>Agendamiento autónomo en tiempo real</li>
+        </ul>
+        <a href="https://calendly.com/claudiocaf87/consultoria" target="_blank" rel="noopener noreferrer" class="plan-cta outline">Empezar con Agente Triple →</a>
+      </article>
+
+      <article class="plan featured reveal d1" style="border-color: rgba(255, 0, 0, 0.2)">
+        <span class="plan-badge" style="background-color: rgb(0, 229, 255)">MÁS POPULAR</span>
+        <div>
+          <div class="plan-name">Sistema SAAIA Pro</div>
+          <div class="plan-sub" style="color: rgb(255, 255, 255)">El sistema completo</div>
+        </div>
+        <p class="plan-desc" style="color: rgb(255, 255, 255)">Para la clínica que no quiere depender de nadie para cerrar pacientes. Opera las 24 h sola.</p>
+        <div class="plan-prices">
+          <div>
+            <div class="plan-pblock-label" style="color: rgb(255, 255, 255)">SETUP · 20% OFF</div>
+            <div class="plan-pblock-val" style="color: rgb(0, 229, 255)">USD 797
+USD 1.090</div>
+            <div class="plan-pblock-meta" style="color: rgb(255, 255, 255)">pago único</div>
+          </div>
+          <div>
+            <div class="plan-pblock-label" style="color: rgb(255, 255, 255)">Mantenimiento</div>
+            <div class="plan-pblock-val">USD 197</div>
+            <div class="plan-pblock-meta" style="color: rgb(255, 255, 255)">/ mes</div>
+          </div>
+        </div>
+        <div class="cuotas-option">
+          <span class="cuotas-icon">💳</span>
+          <span class="cuotas-text">o <strong>3 cuotas de USD 265</strong></span>
+        </div>
+        <p class="cuotas-nota">* Sistema activo desde el primer pago. Cuotas 2 y 3 a los 30 y 60 días.</p>
+        <ul class="plan-feat">
+          <li>Todo lo del Agente Triple, más:</li>
+          <li>Sincronización Google Calendar / Outlook</li>
+          <li>CRM de gestión del paciente</li>
+          <li>Asistente Web 24/7 embebido en tu sitio</li>
+          <li>Email + WhatsApp marketing (nutrición de leads)</li>
+          <li>Recuperación de no-shows automática</li>
+          <li>Dashboard de conversión con métricas IA</li>
+        </ul>
+        <a href="https://calendly.com/claudiocaf87/consultoria" target="_blank" rel="noopener noreferrer" class="plan-cta solid">Agendar asesoría →</a>
+      </article>
+
+      <article class="plan reveal d2">
+        <div>
+          <div class="plan-name">SAAIA Premium</div>
+          <div class="plan-sub" style="color: rgb(255, 255, 255)">Máxima escala</div>
+        </div>
+        <p class="plan-desc" style="color: rgb(255, 255, 255)">Para la clínica que quiere dominar su zona con toda su presencia digital automatizada.</p>
+        <div class="plan-prices">
+          <div>
+            <div class="plan-pblock-label" style="color: rgb(255, 255, 255)">SETUP · 20% OFF</div>
+            <div class="plan-pblock-val">USD 1.297
+USD 1.690</div>
+            <div class="plan-pblock-meta" style="color: rgb(255, 255, 255)">pago único</div>
+          </div>
+          <div>
+            <div class="plan-pblock-label" style="color: rgb(255, 255, 255)">Mantenimiento</div>
+            <div class="plan-pblock-val">USD 247</div>
+            <div class="plan-pblock-meta" style="color: rgb(255, 255, 255)">/ mes</div>
+          </div>
+        </div>
+        <div class="cuotas-option">
+          <span class="cuotas-icon">💳</span>
+          <span class="cuotas-text">o <strong>3 cuotas de USD 432</strong></span>
+        </div>
+        <p class="cuotas-nota">* Sistema activo desde el primer pago. Cuotas 2 y 3 a los 30 y 60 días.</p>
+        <ul class="plan-feat">
+          <li>Todo lo del Sistema SAAIA Pro, más:</li>
+          <li>Landing page / web one-page (diseño + copy incluido)</li>
+          <li>Agente de Voz IA (Vapi) — Recepcionista telefónica</li>
+          <li>Email Marketing — secuencia de 5 correos</li>
+          <li>Generación automática de PDFs y documentos</li>
+          <li>Reactivación de pacientes cada 6 meses</li>
+          <li>Onboarding dedicado y soporte prioritario</li>
+        </ul>
+        <a href="https://calendly.com/claudiocaf87/consultoria" target="_blank" rel="noopener noreferrer" class="plan-cta outline">Consultar disponibilidad →</a>
+      </article>
+    </div>
+
+    <p class="plans-note reveal d2">
+      ¿No sabés cuál elegir? En la asesoría gratuita de 10 minutos te recomendamos
+      el plan ideal para tu volumen de pacientes y tu presupuesto.
+    </p>
+  </div>
+</section>
+
+<!-- ============================ 11. GUARANTEE ============================ -->
+<section class="section" data-screen-label="11 Guarantee" style="padding-top: 0;">
+  <div class="container" style="max-width: 820px;">
+    <div class="section-head center reveal">
+      <div class="eyebrow" style="color: rgb(255, 23, 68)">// SIN RIESGO</div>
+      <h2 class="section-h2">Si en el primer mes sentís que no es<br>para tu clínica, <span style="color: #ff1744">cancelás sin preguntas.</span></h2>
+    </div>
+    <div class="guarantee-card reveal d1" style="border-color: rgba(230, 0, 0, 0.3)">
+      <div class="guarantee-shield">🛡️</div>
+      <p>Sin contratos anuales ni permanencia obligatoria. Si en los primeros 30 días decidís no continuar, cancelás sin penalidades ni letra chica.</p>
+      <ul class="guarantee-checks">
+        <li>Sin contratos anuales ni permanencia obligatoria</li>
+        <li>Resultados visibles desde las primeras semanas</li>
+        <li>Si no funciona para tu clínica, no seguís pagando</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ 12. FINAL CTA ============================ -->
+<section class="final-cta" data-screen-label="12 Final CTA">
+  <div class="container">
+    <div class="reveal eyebrow red">✦ TOMÁ LA DECISIÓN HOY</div>
+    <h2 class="reveal d1">
+      Mientras lo pensás,<br>tu competencia está agendando<br>
+      <span class="em">los pacientes que son tuyos.</span>
+    </h2>
+    <p class="reveal d2 sub">
+      Agendá una asesoría gratuita de 10 minutos. Sin compromisos.
+      Te mostramos exactamente cómo funciona SAAIA en tu tipo de clínica.
+    </p>
+    <a href="https://calendly.com/claudiocaf87/consultoria" target="_blank" rel="noopener noreferrer" class="btn btn-primary reveal d3">
+      Quiero dejar de perder pacientes →
+    </a>
+    <div class="reveal d4 final-trust">
+      <span>Sin compromiso</span>
+      <span>Solo 10 minutos</span>
+      <span>100% gratuito</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ 12. FOOTER ============================ -->
+<footer data-screen-label="13 Footer">
+  <div class="container">
+    <div class="foot-row">
+      <a href="#top" class="logo" aria-label="Volver al inicio">
+        <img src="assets/claf-logo.png" alt="Claf" width="40" height="40">
+      </a>
+      <div class="foot-links">
+        <a href="#como-funciona">Cómo funciona</a>
+        <a href="#precios">Precios</a>
+        <a href="https://calendly.com/claudiocaf87/consultoria" target="_blank" rel="noopener noreferrer">Agendar asesoría</a>
+      </div>
+    </div>
+    <div class="copy">
+      © <span id="year">2026</span> Claf Digital · Sistema SAAIA · IA para Clínicas de Salud
+    </div>
+  </div>
+</footer>
+
+<script src="app.js" defer></script>
+</body>
+</html>

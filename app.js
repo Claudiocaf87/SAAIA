@@ -33,18 +33,6 @@
   };
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
-  if (burger) {
-    burger.addEventListener('click', function () {
-      nav.classList.toggle('open');
-      document.body.style.overflow = nav.classList.contains('open') ? 'hidden' : '';
-    });
-    $$('.mobile-menu a').forEach(function (a) {
-      a.addEventListener('click', function () {
-        nav.classList.remove('open');
-        document.body.style.overflow = '';
-      });
-    });
-  }
 
   // ===== Reveal on view
   if ('IntersectionObserver' in window) {
